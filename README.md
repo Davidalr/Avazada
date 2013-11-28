@@ -1,7 +1,5 @@
-                                                **AVANZADA PROYECTO**
-
-
-----------
+ **AVANZADA PROYECTO**
+---------------------    
 
 
 **Se necesita desarrrollar una aplicacion que permita controlar la informacion de una 
