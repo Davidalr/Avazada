@@ -1,4 +1,4 @@
- <center> **AVANZADA PROYECTO** </center>
+#### <i class="icon-hdd"></i> **AVANZADA PROYECTO** 
 ---------------------    
 
 
