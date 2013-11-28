@@ -1,0 +1,6 @@
+#Netbeans Gitignore
+
+/Biblioteca/nbproject/private/
+/Biblioteca/nbproject
+/Biblioteca/build.xml
+/Biblioteca/manifest.mf
