@@ -1,4 +1,4 @@
-                                              **AVANZADA PROYECTO**
+ <center> **AVANZADA PROYECTO** </center>
 ---------------------    
 
 
