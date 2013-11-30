@@ -59,12 +59,12 @@ public class ClienteDB extends DBManager {
                  +"', telefono= '" + m_data.getTelefono()
                  +"', fecha_nacimiento= '" + m_data.getFechaNacimeinto()
                  +"', codigo_tipo_clientes= '" + codigo
-                 +"' where id = " + m_data.getId() + "" );
+                 +"' where codigo = " + m_data.getId() + "" );
          }
     }
 
     public void delete(Cliente m_data) {
-         mgr.execute("delete from \"clientes\" WHERE id = " + m_data.getId() + "" );
+         mgr.execute("delete from \"clientes\" WHERE codigo = " + m_data.getId() + "" );
     }
     /*public Vector<Cliente> getCliente() {
      Vector<Cliente> v = executeQuery( "select id, nombre, direccion, telefono from \"Clientes\"" );
