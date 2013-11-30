@@ -43,23 +43,28 @@ public class ClienteDB extends DBManager {
         return null;
     }
 
-    public void save(Cliente m_data, Boolean valor) {
-        /* if( valor ){
-         mgr.execute( "insert into \"Clientes\"( id, nombre, direccion, telefono) values( " +
-         m_data.id + ", '" +
-         m_data.nombre + "', '" +
-         m_data.direccion + "', '" +
-         m_data.telefono + "' )" );
+    public void save(Cliente m_data, Boolean valor,int codigo) {
+         if( valor ){
+         mgr.execute( "insert into  \"clientes\" (  nombre, apellido, telefono,"
+                 + "fecha_nacimiento,codigo_tipo_clientes) values ("
+                 + "'"+m_data.getNombre()+"',"
+                 + "'"+m_data.getApellido()+"',"
+                 + "'"+m_data.getTelefono()+"',"
+                 + "'"+m_data.getFechaNacimeinto()+"',"
+                 + "'"+codigo+"')");
          } else  {
-         mgr.execute( "update Cliente set direccion= '" + m_data.direccion +
-         "', telefono= '" + m_data.telefono +
-         "', nombre= '" + m_data.nombre +
-         "' where id = " + m_data.id + "" );
-         }*/
+         mgr.execute( "update \"clientes\" set nombre= '" 
+                 + m_data.getNombre() 
+                 + "', apellido= '" + m_data.getApellido() 
+                 +"', telefono= '" + m_data.getTelefono()
+                 +"', fecha_nacimiento= '" + m_data.getFechaNacimeinto()
+                 +"', codigo_tipo_clientes= '" + codigo
+                 +"' where id = " + m_data.getId() + "" );
+         }
     }
 
     public void delete(Cliente m_data) {
-        // mgr.execute("delete from Cliente WHERE id = " + m_data.id + "" );
+         mgr.execute("delete from \"clientes\" WHERE id = " + m_data.getId() + "" );
     }
     /*public Vector<Cliente> getCliente() {
      Vector<Cliente> v = executeQuery( "select id, nombre, direccion, telefono from \"Clientes\"" );

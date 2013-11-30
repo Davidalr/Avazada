@@ -7,7 +7,7 @@ package Vista;
 
 import javax.swing.DefaultComboBoxModel;
 import Controlador.*;
-import Negocio.TipoCliente;
+import Negocio.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -25,6 +25,9 @@ public class Clientes extends javax.swing.JInternalFrame {
         ArrayList<TipoCliente> tipoClientes = TipoClientesController.getInstance().getTipoClientesArray();
         DefaultComboBoxModel comboModel = new javax.swing.DefaultComboBoxModel(tipoClientes.toArray());
         tipoTxt.setModel(comboModel);
+
+        ArrayList<Cliente> cliente = ClienteController.getInstance().getClientesArray();
+        listClientes.setListData(cliente.toArray());
     }
 
     /**
@@ -50,13 +53,14 @@ public class Clientes extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         listClientes = new javax.swing.JList();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
 
-        nombreTxt.setText(" ");
         nombreTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nombreTxtActionPerformed(evt);
@@ -99,7 +103,21 @@ public class Clientes extends javax.swing.JInternalFrame {
             }
         });
 
+        listClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listClientesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(listClientes);
+
+        jButton2.setText("Actualizar Cliente");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Eliminar Cliente");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -108,7 +126,6 @@ public class Clientes extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(45, 45, 45)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel2)
@@ -122,10 +139,17 @@ public class Clientes extends javax.swing.JInternalFrame {
                             .addComponent(fechaNacimientoTxt, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(apellidoTxt, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(nombreTxt, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tipoTxt, 0, 138, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36))
+                            .addComponent(tipoTxt, 0, 138, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(63, 63, 63)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(61, 61, 61))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(241, 241, 241)
                 .addComponent(jLabel1)
@@ -136,33 +160,37 @@ public class Clientes extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(75, 75, 75)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(75, 75, 75)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(nombreTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(apellidoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addGap(25, 25, 25)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(fechaNacimientoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addGap(25, 25, 25)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(telefonoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(16, 16, 16)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(tipoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nombreTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(apellidoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fechaNacimientoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(telefonoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(tipoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24))
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
@@ -181,22 +209,55 @@ public class Clientes extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tipoTxtActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        HashMap hashMap = new  HashMap();
+        HashMap hashMap = new HashMap();
         hashMap.put("nombre", nombreTxt.getText());
         hashMap.put("apellido", apellidoTxt.getText());
-         hashMap.put("telefono", telefonoTxt.getText());
+        hashMap.put("telefono", telefonoTxt.getText());
         hashMap.put("fecha_nacimiento", fechaNacimientoTxt.getText());
-        TipoCliente tipo= (TipoCliente) tipoTxt.getSelectedItem();
+        hashMap.put("codigo", ClienteController.id+1);
+        TipoCliente tipo = (TipoCliente) tipoTxt.getSelectedItem();
         hashMap.put("codigo_tipo_clientes", tipo.getId());
-        ClienteController.getInstance().llenarCLiente(hashMap);
-    // TODO add your handling code here:
+        ClienteController.getInstance().llenarCLiente(hashMap,true);
+        ArrayList<Cliente> cliente = ClienteController.getInstance().getClientesArray();
+        listClientes.setListData(cliente.toArray());
+        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void listClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listClientesMouseClicked
+        Cliente cliente = (Cliente) listClientes.getSelectedValue();
+        nombreTxt.setText(cliente.getNombre());
+        apellidoTxt.setText(cliente.getApellido());
+        telefonoTxt.setText(cliente.getTelefono());
+        fechaNacimientoTxt.setText(cliente.getFechaNacimeinto());
+        int select = ("class Negocio.Normales".equals(cliente.getClass().toString())) ? 0 : ("class  Negocio.Normales".equals(cliente.getClass().toString())) ? 1 : 2;
+        
+        tipoTxt.setSelectedIndex(select);
+    }//GEN-LAST:event_listClientesMouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Cliente clienteSelect = (Cliente) listClientes.getSelectedValue();
+        HashMap hashMap = new HashMap();
+        hashMap.put("nombre", nombreTxt.getText());
+        hashMap.put("apellido", apellidoTxt.getText());
+        hashMap.put("telefono", telefonoTxt.getText());
+        hashMap.put("fecha_nacimiento", fechaNacimientoTxt.getText());
+        hashMap.put("codigo", clienteSelect.getId());
+        TipoCliente tipo = (TipoCliente) tipoTxt.getSelectedItem();
+        hashMap.put("codigo_tipo_clientes", tipo.getId());
+        int tipoClaseSelec = tipoTxt.getSelectedIndex()+1;
+        ClienteController.getInstance().actualizarCliente(clienteSelect,hashMap,tipoClaseSelec);
+        ArrayList<Cliente> cliente = ClienteController.getInstance().getClientesArray();
+        listClientes.setListData(cliente.toArray());
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField apellidoTxt;
     private javax.swing.JFormattedTextField fechaNacimientoTxt;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
