@@ -17,11 +17,11 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class AutorDB extends DBManager {
+public class MateriaDB extends DBManager {
 
-    public static AutorDB mgr = new AutorDB();
+    public static MateriaDB mgr = new MateriaDB();
 
-    private AutorDB() {
+    private MateriaDB() {
     }
 
     protected void addObject(Vector v, ResultSet rs) {
@@ -31,7 +31,7 @@ public class AutorDB extends DBManager {
     public List<HashMap<String, Object>>  allItem() {
          
         
-        return executeQuery("select * from \"autor\" ");
+        return executeQuery("select * from \"materia\" ");
     }
 
     public Cliente getItem(String id) {
@@ -44,22 +44,20 @@ public class AutorDB extends DBManager {
         return null;
     }
 
-    public void save(Autor m_data, Boolean valor) {
+    public void save(Materia m_data, Boolean valor) {
          if( valor ){
-         mgr.execute( "insert into  \"autor\" (  nombre, pais) values ("
-                 + "'"+m_data.getNombre()+"',"
-                 + "'"+m_data.getPais()+"'"
+         mgr.execute( "insert into  \"materia\" (  nombre) values ("
+                 + "'"+m_data.getNombre()+"'"
                  + ")");
          } else  {
-         mgr.execute( "update \"autor\" set nombre= '" 
+         mgr.execute( "update \"materia\" set nombre= '" 
                  + m_data.getNombre() 
-                 + "', pais= '" + m_data.getPais() 
                  + "' where codigo = " + m_data.getId() + "" );
          }
     }
 
-    public void delete(Autor m_data) {
-         mgr.execute("delete from \"autor\" WHERE codigo = " + m_data.getId() + "" );
+    public void delete(Materia m_data) {
+         mgr.execute("delete from \"materia\" WHERE codigo = " + m_data.getId() + "" );
     }
     /*public Vector<Cliente> getCliente() {
      Vector<Cliente> v = executeQuery( "select id, nombre, direccion, telefono from \"Clientes\"" );

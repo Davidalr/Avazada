@@ -21,10 +21,8 @@ public class Autor extends javax.swing.JInternalFrame {
      */
     public Autor() {
         initComponents();
-        ArrayList autores =  AutorController.getInstance().getAutorArray();
-        listAutores.setListData(autores.toArray());
-        
-        
+        llenarAutores();
+
     }
 
     /**
@@ -79,8 +77,13 @@ public class Autor extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Pais");
 
-        paisTxt.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        paisTxt.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Colombia", "Japon", "Venezuela", "USA", "Suiza", "España" }));
 
+        listAutores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listAutoresMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(listAutores);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -143,20 +146,39 @@ public class Autor extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-            // TODO add your handling code here:
+        HashMap hashMap = new HashMap();
+        hashMap.put("nombre", nombreTxt.getText());
+        hashMap.put("pais", paisTxt.getSelectedItem().toString());
+        AutorController.getInstance().llenarAutor(hashMap);
+        llenarAutores();
+        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        HashMap hashMap = new HashMap();
+        Negocio.Autor autor = (Negocio.Autor) listAutores.getSelectedValue();
+        hashMap.put("nombre", nombreTxt.getText());
+        hashMap.put("codigo", autor.getId());
+        hashMap.put("pais", paisTxt.getSelectedItem().toString());
+        AutorController.getInstance().actualizarAutor(autor, hashMap);
+        llenarAutores();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void llenarAutores(){
+        ArrayList autores = AutorController.getInstance().getAutorArray();
+        listAutores.setListData(autores.toArray());
+    }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       HashMap hashMap = new HashMap();
-       hashMap.put("nombre", nombreTxt.getText());
-       hashMap.put("pais", paisTxt.getSelectedItem().toString());
-       AutorController.getInstance().llenarAutor(null, hashMap);
-        // TODO add your handling code here:
+        Negocio.Autor autor = (Negocio.Autor) listAutores.getSelectedValue();
+        AutorController.getInstance().eliminarAutor(autor);
+        llenarAutores();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void listAutoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listAutoresMouseClicked
+        Negocio.Autor autor = (Negocio.Autor) listAutores.getSelectedValue();
+        nombreTxt.setText(autor.getNombre());
+        paisTxt.setSelectedItem(autor.getPais());
+    }//GEN-LAST:event_listAutoresMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

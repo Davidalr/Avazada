@@ -17,21 +17,20 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class AutorDB extends DBManager {
+public class PrestamoDB extends DBManager {
 
-    public static AutorDB mgr = new AutorDB();
+    public static PrestamoDB mgr = new PrestamoDB();
 
-    private AutorDB() {
+    private PrestamoDB() {
     }
 
     protected void addObject(Vector v, ResultSet rs) {
         //v.add( new Cliente( rs ) );
     }
 
-    public List<HashMap<String, Object>>  allItem() {
-         
-        
-        return executeQuery("select * from \"autor\" ");
+    public List<HashMap<String, Object>> allItem() {
+
+        return executeQuery("select * from \"prestamo\" ");
     }
 
     public Cliente getItem(String id) {
@@ -44,22 +43,25 @@ public class AutorDB extends DBManager {
         return null;
     }
 
-    public void save(Autor m_data, Boolean valor) {
-         if( valor ){
-         mgr.execute( "insert into  \"autor\" (  nombre, pais) values ("
-                 + "'"+m_data.getNombre()+"',"
-                 + "'"+m_data.getPais()+"'"
-                 + ")");
-         } else  {
-         mgr.execute( "update \"autor\" set nombre= '" 
-                 + m_data.getNombre() 
-                 + "', pais= '" + m_data.getPais() 
-                 + "' where codigo = " + m_data.getId() + "" );
-         }
+    public void save(Prestamo m_data, Boolean valor) {
+        String idCliente = Integer.toString(m_data.getCliente().getId());
+        String idLibro = Integer.toString(m_data.getLibro().getId());
+        if (valor) {
+            mgr.execute("insert into  \"prestamo\" (  fecha, cliente,libro) values ("
+                    + "'" + m_data.getFecha() + "',"
+                    + "'" + idCliente + "',"
+                    + "'" + idLibro + "'"
+                    + ")");
+        } else {
+           /* mgr.execute("update \"prestamo\" set nombre= '"
+                    + m_data.getNombre()
+                    + "', pais= '" + m_data.getPais()
+                    + "' where codigo = " + m_data.getId() + "");*/
+        }
     }
 
     public void delete(Autor m_data) {
-         mgr.execute("delete from \"autor\" WHERE codigo = " + m_data.getId() + "" );
+        mgr.execute("delete from \"prestamo\" WHERE codigo = " + m_data.getId() + "");
     }
     /*public Vector<Cliente> getCliente() {
      Vector<Cliente> v = executeQuery( "select id, nombre, direccion, telefono from \"Clientes\"" );
