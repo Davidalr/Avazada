@@ -20,8 +20,7 @@ public class Biblioteca {
      */
     public static void main(String[] args) throws SQLException {
         
-        new ClienteController().llenarClientes();
-         new Principal().setVisible(true);
+        new Principal().setVisible(true);
     }
     
 }

@@ -17,10 +17,17 @@ import Negocio.*;
  * @author juan2ramos
  */
 public class ClienteController {
-
-    ArrayList<Cliente> clientesArray = new ArrayList();
-
-    public void llenarClientes() {
+    private static ClienteController INSTANCE = null;
+    private static ArrayList<Cliente> clientesArray = new ArrayList();
+    
+    public static ClienteController getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ClienteController();
+            INSTANCE.llenarClientes();
+        }
+        return INSTANCE;
+    }
+    private void llenarClientes() {
         List<HashMap<String, Object>> clientes = ClienteDB.mgr.allItem();
         for (int i = 0; i < clientes.size(); i++) {
             int tipo = (int) clientes.get(i).get("codigo_tipo_clientes");
@@ -32,7 +39,10 @@ public class ClienteController {
 
     public String llenarCLiente(HashMap<String, Object> data) {
         
-        Object codigo_tipo = data.get("codigo_tipo");
+        int codigo_tipo = (int) data.get("codigo_tipo_clientes");
+        System.out.print(codigo_tipo);
+        Cliente cliente = ClienteFactory.crearCliente(codigo_tipo, data);
+        clientesArray.add(cliente);
         return "Se agrego cliente";
     }
 }

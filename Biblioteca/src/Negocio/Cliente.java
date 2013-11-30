@@ -30,7 +30,7 @@ public abstract class Cliente {
 
     public Cliente(HashMap<String, Object> data) {
 
-        this.id = (int) data.get("codigo");
+        //this.id = (int) data.get("codigo");
         this.nombre = (String) data.get("nombre");
         this.apellido = (String) data.get("apellido");
         this.telefono = (String) data.get("telefono");
