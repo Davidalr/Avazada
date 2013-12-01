@@ -11,6 +11,7 @@ import Negocio.TipoCliente;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -64,6 +65,11 @@ public class Prestamo extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         devolucionTxt = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
+
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
 
         fechaTxt.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
         fechaTxt.setToolTipText("12/12/1985");
@@ -137,8 +143,7 @@ public class Prestamo extends javax.swing.JInternalFrame {
                         .addGap(45, 45, 45)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(45, 45, 45)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(31, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -181,30 +186,39 @@ public class Prestamo extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        HashMap hashMap = new HashMap();
-        hashMap.put("fecha", fechaTxt.getText());
-        hashMap.put("fecha_devolucion", devolucionTxt.getText());
-        hashMap.put("codigo", PrestamoController.id + 1);
-        hashMap.put("codigo_cliente", (Cliente) clienteTxt.getSelectedItem());
-        hashMap.put("codigo_libro", (Libro) libroTxt.getSelectedItem());
-        PrestamoController.getInstance().llenarPrestamo(hashMap);
-        llenarPrestamo();
+        
+        if(PrestamoController.getInstance().validarExistencias((Libro) libroTxt.getSelectedItem())){
+       
+            HashMap hashMap = new HashMap();
+            hashMap.put("fecha", fechaTxt.getText());
+            hashMap.put("fecha_devolucion", devolucionTxt.getText());
+            hashMap.put("codigo", PrestamoController.id + 1);
+            hashMap.put("codigo_cliente", (Cliente) clienteTxt.getSelectedItem());
+            hashMap.put("codigo_libro", (Libro) libroTxt.getSelectedItem());
+            PrestamoController.getInstance().llenarPrestamo(hashMap);
+            llenarPrestamo();
+        }else{
+            JOptionPane.showInternalMessageDialog(rootPane, "No hay mas existencias");
+        }
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         Negocio.Prestamo prestamo = (Negocio.Prestamo) listaPrestamo.getSelectedValue();
+
         HashMap hashMap = new HashMap();
-        System.out.println( "789"+prestamo.getId());
-        hashMap.put("codigo",prestamo.getId());
+
+        hashMap.put("codigo", prestamo.getId());
         hashMap.put("fecha", fechaTxt.getText());
         hashMap.put("fecha_devolucion", devolucionTxt.getText());
-       
+
         hashMap.put("codigo_cliente", (Cliente) clienteTxt.getSelectedItem());
         hashMap.put("codigo_libro", (Libro) libroTxt.getSelectedItem()); // TODO add your handling code here:
-        PrestamoController.getInstance().actualizarPrestamos(prestamo,hashMap);
+        PrestamoController.getInstance().actualizarPrestamos(prestamo, hashMap);
         llenarPrestamo();
+
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void listaPrestamoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaPrestamoMouseClicked

@@ -34,7 +34,7 @@ public class PrestamoController {
 
         List<HashMap<String, Object>> prestamos = PrestamoDB.mgr.allItem();
         for (int i = 0; i < prestamos.size(); i++) {
-            
+
             int idlibro = (int) prestamos.get(i).get("codigo_libros");
             int idCliente = (int) prestamos.get(i).get("codigo_clientes");
             prestamos.get(i).put("codigo_libro", getLibro(idlibro));
@@ -69,12 +69,12 @@ public class PrestamoController {
         }
         return null;
     }
-    
-    public ArrayList<Cliente> cliente(){
+
+    public ArrayList<Cliente> cliente() {
         return ClienteController.getInstance().getClientesArray();
     }
-    
-    public ArrayList<Libro> libro(){
+
+    public ArrayList<Libro> libro() {
         return LibroController.getInstance().getLibroArray();
     }
 
@@ -83,8 +83,29 @@ public class PrestamoController {
         prestamo.prestamoUpdate(data);
         System.out.println(prestamo.getId());
         PrestamoDB.mgr.save(prestamo, false);
+
+    }
+
+    private int contarExsitencias(Libro libro) {
+        ArrayList<Prestamo> prestamoL = prestamoArray;
+        Iterator it = prestamoL.iterator(); 
+        int cont = 0;
+        while (it.hasNext()) //mientras queden elementos
+        {
+            Prestamo pres = (Prestamo) it.next();
+            if (libro.equals(pres.getLibro())) {
+                cont ++;
+            }
+            
+        }
         
-      
+        return cont;
+
+    
+    }
+    public boolean validarExistencias(Libro libro) {
+        int ejemplares = libro.getNumeroEjemplares();       
+        return (ejemplares - contarExsitencias(libro) > 1);
     }
 
     public void llenarPrestamo(HashMap<String, Object> data) {
@@ -95,10 +116,8 @@ public class PrestamoController {
 
     }
 
-    public  ArrayList<Prestamo> getPrestamoArray() {
+    public ArrayList<Prestamo> getPrestamoArray() {
         return prestamoArray;
     }
-
-    
 
 }
