@@ -46,17 +46,24 @@ public class PrestamoDB extends DBManager {
     public void save(Prestamo m_data, Boolean valor) {
         String idCliente = Integer.toString(m_data.getCliente().getId());
         String idLibro = Integer.toString(m_data.getLibro().getId());
+        
         if (valor) {
-            mgr.execute("insert into  \"prestamo\" (  fecha, cliente,libro) values ("
+            mgr.execute("insert into  \"prestamo\" (  fecha, codigo_clientes,fecha_devolucion,"
+                    + "codigo_libros) values ("
                     + "'" + m_data.getFecha() + "',"
                     + "'" + idCliente + "',"
+                    + "" + m_data.getFechaDevolucion() + ","
                     + "'" + idLibro + "'"
                     + ")");
         } else {
-           /* mgr.execute("update \"prestamo\" set nombre= '"
-                    + m_data.getNombre()
-                    + "', pais= '" + m_data.getPais()
-                    + "' where codigo = " + m_data.getId() + "");*/
+          String sql =  "update \"prestamo\" set fecha= '"
+                    + m_data.getFecha()
+                    + "', codigo_clientes= '" + idCliente
+                    + "', fecha_devolucion= '" + m_data.getFechaDevolucion()
+                    + "', codigo_libros= '" + idLibro
+                    + "' where codigo = " + m_data.getId() + "";
+            System.out.println("---"+sql);
+            mgr.execute(sql);
         }
     }
 

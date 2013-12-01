@@ -34,65 +34,71 @@ public class PrestamoController {
 
         List<HashMap<String, Object>> prestamos = PrestamoDB.mgr.allItem();
         for (int i = 0; i < prestamos.size(); i++) {
-
-            int idlibro = (int) prestamos.get(i).get("codigo_libro");
-            int idCliente = (int) prestamos.get(i).get("codigo_cliente");
-            libros.get(i).put("codigo_libro", getAutor(idlibro));
-            libros.get(i).put("materia", getMateria(idMateria));
-            libroArray.add(new Libro(libros.get(i)));
-            if (libros.size() - 1 == i) {
-                PrestamoController.id = (int) libros.get(i).get("codigo");
+            
+            int idlibro = (int) prestamos.get(i).get("codigo_libros");
+            int idCliente = (int) prestamos.get(i).get("codigo_clientes");
+            prestamos.get(i).put("codigo_libro", getLibro(idlibro));
+            prestamos.get(i).put("codigo_cliente", getCliente(idCliente));
+            prestamoArray.add(new Prestamo(prestamos.get(i)));
+            if (prestamos.size() - 1 == i) {
+                PrestamoController.id = (int) prestamos.get(i).get("codigo");
             }
         }
     }
 
-    private Autor getAutor(int idAutor) {
-        ArrayList<Autor> autores = AutorController.getInstance().getAutorArray();
-        Iterator it = autores.iterator();
+    private Libro getLibro(int idlibro) {
+        ArrayList<Libro> libros = LibroController.getInstance().getLibroArray();
+        Iterator it = libros.iterator();
         while (it.hasNext()) {
-            Autor autor = (Autor) it.next();
-            if (idAutor == autor.getId()) {
-                return autor;
+            Libro libro = (Libro) it.next();
+            if (idlibro == libro.getId()) {
+                return libro;
             }
         }
         return null;
     }
 
-    private Materia getMateria(int idMateria) {
-        ArrayList<Materia> materias = MateriaController.getInstance().getMateriaArray();
-        Iterator it = materias.iterator();
+    private Cliente getCliente(int idCliente) {
+        ArrayList<Cliente> clientes = ClienteController.getInstance().getClientesArray();
+        Iterator it = clientes.iterator();
         while (it.hasNext()) {
-            Materia materia = (Materia) it.next();
-            if (idMateria == materia.getId()) {
-                return materia;
+            Cliente cliente = (Cliente) it.next();
+            if (idCliente == cliente.getId()) {
+                return cliente;
             }
         }
         return null;
     }
-
-    public void actualizarLibro(Libro libro, HashMap<String, Object> data) {
-        libro.libroUpdate(data);
-        LibroDB.mgr.save(libro, false);
+    
+    public ArrayList<Cliente> cliente(){
+        return ClienteController.getInstance().getClientesArray();
+    }
+    
+    public ArrayList<Libro> libro(){
+        return LibroController.getInstance().getLibroArray();
     }
 
-    public ArrayList<Materia> materias() {
-        return MateriaController.getInstance().getMateriaArray();
+    public void actualizarPrestamos(Negocio.Prestamo prestamo, HashMap<String, Object> data) {
+        System.out.println(data.get("codigo"));
+        prestamo.prestamoUpdate(data);
+        System.out.println(prestamo.getId());
+        PrestamoDB.mgr.save(prestamo, false);
+        
+      
     }
 
-    public ArrayList<Autor> autores() {
-        return AutorController.getInstance().getAutorArray();
-    }
-
-    public void llenarLibro(HashMap<String, Object> data) {
+    public void llenarPrestamo(HashMap<String, Object> data) {
         data.put("codigo", PrestamoController.id + 1);
-        Libro libro = new Libro(data);
-        libroArray.add(libro);
-        LibroDB.mgr.save(libro, Boolean.TRUE);
+        Prestamo prestamo = new Prestamo(data);
+        prestamoArray.add(prestamo);
+        PrestamoDB.mgr.save(prestamo, true);
 
     }
 
-    public ArrayList<Libro> getLibroArray() {
-        return libroArray;
+    public  ArrayList<Prestamo> getPrestamoArray() {
+        return prestamoArray;
     }
+
+    
 
 }
