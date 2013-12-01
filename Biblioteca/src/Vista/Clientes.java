@@ -67,8 +67,8 @@ public class Clientes extends javax.swing.JInternalFrame {
             }
         });
 
-        fechaNacimientoTxt.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM))));
-        fechaNacimientoTxt.setToolTipText("fecha dd/mm/aaa");
+        fechaNacimientoTxt.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("MM/d/yyyy"))));
+        fechaNacimientoTxt.setToolTipText("fecha MM/DD/AAAA");
         fechaNacimientoTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fechaNacimientoTxtActionPerformed(evt);
@@ -195,7 +195,7 @@ public class Clientes extends javax.swing.JInternalFrame {
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         pack();
@@ -221,6 +221,7 @@ public class Clientes extends javax.swing.JInternalFrame {
         hashMap.put("fecha_nacimiento", fechaNacimientoTxt.getText());
         hashMap.put("codigo", ClienteController.id+1);
         TipoCliente tipo = (TipoCliente) tipoTxt.getSelectedItem();
+        System.out.println("kjk"+tipo.getId());
         hashMap.put("codigo_tipo_clientes", tipo.getId());
         ClienteController.getInstance().llenarCLiente(hashMap,true);
         ArrayList<Cliente> cliente = ClienteController.getInstance().getClientesArray();
@@ -234,7 +235,7 @@ public class Clientes extends javax.swing.JInternalFrame {
         apellidoTxt.setText(cliente.getApellido());
         telefonoTxt.setText(cliente.getTelefono());
         fechaNacimientoTxt.setText(cliente.getFechaNacimeinto());
-        int select = ("class Negocio.Normales".equals(cliente.getClass().toString())) ? 0 : ("class  Negocio.Normales".equals(cliente.getClass().toString())) ? 1 : 2;
+        int select = ("class Negocio.Especiales".equals(cliente.getClass().toString())) ? 0 : ("class  Negocio.Normales".equals(cliente.getClass().toString())) ? 1 : 2;
         
         tipoTxt.setSelectedIndex(select);
     }//GEN-LAST:event_listClientesMouseClicked

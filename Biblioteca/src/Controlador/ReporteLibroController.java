@@ -37,8 +37,8 @@ public class ReporteLibroController {
         {
             Prestamo pres = (Prestamo) it.next();
             if (libro.equals(pres.getLibro())) {
-                System.out.print(cont+" - "+pres.getFechaDevolucion());
-                if(!"".equals(pres.getFechaDevolucion())){
+                System.out.println(cont+" - "+pres.getFechaDevolucion());
+                if("0".equals(pres.getFechaDevolucion())){
                     cont++;
                 }
             }

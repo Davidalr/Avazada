@@ -52,7 +52,7 @@ public class PrestamoDB extends DBManager {
                     + "codigo_libros) values ("
                     + "'" + m_data.getFecha() + "',"
                     + "'" + idCliente + "',"
-                    + "" + m_data.getFechaDevolucion() + ","
+                    + "'" + m_data.getFechaDevolucion() + "',"
                     + "'" + idLibro + "'"
                     + ")");
         } else {

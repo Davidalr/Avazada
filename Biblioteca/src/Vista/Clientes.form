@@ -125,9 +125,9 @@
     <Component class="javax.swing.JFormattedTextField" name="fechaNacimientoTxt">
       <Properties>
         <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-          <Format subtype="2" type="1"/>
+          <Format format="MM/d/yyyy" subtype="-1" type="1"/>
         </Property>
-        <Property name="toolTipText" type="java.lang.String" value="fecha dd/mm/aaa"/>
+        <Property name="toolTipText" type="java.lang.String" value="fecha MM/DD/AAAA"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fechaNacimientoTxtActionPerformed"/>

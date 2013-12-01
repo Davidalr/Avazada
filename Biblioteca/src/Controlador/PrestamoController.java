@@ -8,9 +8,13 @@ package Controlador;
 import BDClases.*;
 import Negocio.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import org.joda.time.Days;
+import org.joda.time.DateTime;
+import org.joda.time.ReadableInstant;
 
 /**
  *
@@ -86,26 +90,74 @@ public class PrestamoController {
 
     }
 
-    private int contarExsitencias(Libro libro) {
+    private int contarPrestados(Libro libro) {
         ArrayList<Prestamo> prestamoL = prestamoArray;
-        Iterator it = prestamoL.iterator(); 
+        Iterator it = prestamoL.iterator();
         int cont = 0;
         while (it.hasNext()) //mientras queden elementos
         {
             Prestamo pres = (Prestamo) it.next();
             if (libro.equals(pres.getLibro())) {
-                cont ++;
+                if ("0".equals(pres.getFechaDevolucion())) {
+                    cont++;
+                }
+
             }
-            
+
         }
-        
+
         return cont;
 
-    
     }
-    public boolean validarExistencias(Libro libro) {
-        int ejemplares = libro.getNumeroEjemplares();       
-        return (ejemplares - contarExsitencias(libro) > 1);
+
+    private boolean validarCliente(Cliente cliente) {
+
+        ArrayList<Prestamo> prestamoL = prestamoArray;
+        Iterator it = prestamoL.iterator();
+        Date now = new Date();
+        HashMap<String, Object> conf = Config.getInstance().getPrestamoCliente();
+        String tipo = cliente.getClass().toString();
+
+        HashMap<String, Object> confCliente = (HashMap<String, Object>) conf.get(tipo);
+
+        int dias = (int) confCliente.get("dias");
+        int libro = (int) confCliente.get("libros");
+
+        while (it.hasNext()) //mientras queden elementos
+        {
+            Prestamo pres = (Prestamo) it.next();
+            if (cliente.equals(pres.getCliente())) {
+                if ("0".equals(pres.getFechaDevolucion())) {
+                    Date fecha = new Date(pres.getFecha());
+                    int days = Days.daysBetween(new DateTime(fecha), new DateTime(now)).getDays();
+                    System.out.println(pres.getFechaDevolucion() + "--" + dias + "--" + days);
+
+                    if (dias > days) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    public ArrayList validarPrestamo(Libro libro, Cliente cliente) {
+        ArrayList retorno = new ArrayList();
+        int ejemplares = libro.getNumeroEjemplares();
+        if (validarCliente(cliente)) {
+            retorno.add("No se puede realizar prestamo \n Cliente en mora");
+            retorno.add(false);
+            return retorno;
+        }
+
+        if (ejemplares - contarPrestados(libro) <= 1) {
+            retorno.add("No se puede realizar prestamo \n No hay existencias");
+            retorno.add(false);
+            return retorno;
+        }
+        retorno.add("no");
+        retorno.add(false);
+        return retorno;
     }
 
     public void llenarPrestamo(HashMap<String, Object> data) {

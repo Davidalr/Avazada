@@ -24,6 +24,7 @@ public class Prestamo extends javax.swing.JInternalFrame {
      */
     public Prestamo() {
         initComponents();
+        
         llenarDatos();
         llenarPrestamo();
     }
@@ -63,15 +64,15 @@ public class Prestamo extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         listaPrestamo = new javax.swing.JList();
         jLabel5 = new javax.swing.JLabel();
-        devolucionTxt = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
+        devolucionTxt = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
 
-        fechaTxt.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        fechaTxt.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("MM/d/yyyy"))));
         fechaTxt.setToolTipText("12/12/1985");
 
         jButton1.setText("Generara prestamo");
@@ -134,9 +135,9 @@ public class Prestamo extends javax.swing.JInternalFrame {
                         .addGap(49, 49, 49)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(fechaTxt)
-                            .addComponent(clienteTxt, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(clienteTxt, 0, 160, Short.MAX_VALUE)
                             .addComponent(libroTxt, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(devolucionTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(devolucionTxt))
                         .addGap(34, 34, 34)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -175,7 +176,7 @@ public class Prestamo extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
                             .addComponent(devolucionTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -186,8 +187,9 @@ public class Prestamo extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        if(PrestamoController.getInstance().validarExistencias((Libro) libroTxt.getSelectedItem())){
+        ArrayList validar = PrestamoController.getInstance().validarPrestamo((Libro) libroTxt.getSelectedItem(),(Cliente) clienteTxt.getSelectedItem());
+        boolean b = (boolean) validar.get(1);
+        if(b){
        
             HashMap hashMap = new HashMap();
             hashMap.put("fecha", fechaTxt.getText());
@@ -198,7 +200,7 @@ public class Prestamo extends javax.swing.JInternalFrame {
             PrestamoController.getInstance().llenarPrestamo(hashMap);
             llenarPrestamo();
         }else{
-            JOptionPane.showInternalMessageDialog(rootPane, "No hay mas existencias");
+            JOptionPane.showInternalMessageDialog(rootPane, validar.get(0));
         }
 
         // TODO add your handling code here:
