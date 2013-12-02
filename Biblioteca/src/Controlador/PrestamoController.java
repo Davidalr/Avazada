@@ -122,7 +122,7 @@ public class PrestamoController {
 
         int dias = (int) confCliente.get("dias");
         int libro = (int) confCliente.get("libros");
-
+        int cont = 0;
         while (it.hasNext()) //mientras queden elementos
         {
             Prestamo pres = (Prestamo) it.next();
@@ -131,12 +131,15 @@ public class PrestamoController {
                     Date fecha = new Date(pres.getFecha());
                     int days = Days.daysBetween(new DateTime(fecha), new DateTime(now)).getDays();
                     System.out.println(pres.getFechaDevolucion() + "--" + dias + "--" + days);
-
+                    cont++;
                     if (dias > days) {
                         return false;
                     }
                 }
             }
+        }
+        if(libro >= cont){
+            return false;
         }
         return true;
     }
@@ -145,7 +148,7 @@ public class PrestamoController {
         ArrayList retorno = new ArrayList();
         int ejemplares = libro.getNumeroEjemplares();
         if (validarCliente(cliente)) {
-            retorno.add("No se puede realizar prestamo \n Cliente en mora");
+            retorno.add("No se puede realizar prestamo \n Cliente en mora o maximo de libros prestados");
             retorno.add(false);
             return retorno;
         }
