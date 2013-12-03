@@ -31,6 +31,9 @@ public class ClienteController {
     private void llenarClientes() {
         List<HashMap<String, Object>> clientes = ClienteDB.mgr.allItem();
         for (int i = 0; i < clientes.size(); i++) {
+            
+            
+            
             int tipo = (int) clientes.get(i).get("codigo_tipo_clientes");
             
             Cliente cliente = ClienteFactory.crearCliente(tipo, clientes.get(i));
@@ -55,8 +58,10 @@ public class ClienteController {
         
     }
     public void actualizarCliente(Cliente cliente, HashMap<String, Object> data,int claseHash){
-        int claseCliente = ("class Negocio.Normales".equals(cliente.getClass().toString())) ? 1 : ("class  Negocio.Normales".equals(cliente.getClass().toString())) ? 2 : 3;
+        String tipo = cliente.getClass().toString();
         
+        int claseCliente = ("class Negocio.Especiales".equals(tipo)) ? 1 : ("class Negocio.Normales".equals(tipo)) ? 2 : 3;
+        System.out.println(tipo+ " - " +claseCliente);
         
         if(claseHash == claseCliente){
            cliente.clienteUpdate(data);

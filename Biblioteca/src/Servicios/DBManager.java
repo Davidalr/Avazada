@@ -24,7 +24,7 @@ public class DBManager {
     protected List<HashMap<String, Object>> executeQuery(String sz) {
         List<HashMap<String, Object>> list = new ArrayList<>();
         
-        String db = "Biblioteca";
+        String db = "Bibliotecas";
         String url = "jdbc:postgresql://localhost:5432/" + db;
         try {
             Class.forName("org.postgresql.Driver");
@@ -62,7 +62,7 @@ public class DBManager {
     }
 
     public void execute(String sz) {
-        String db = "Biblioteca";
+        String db = "Bibliotecas";
         String url = "jdbc:postgresql://localhost:5432/" + db;
         try {
             Class.forName("org.postgresql.Driver");

@@ -41,7 +41,7 @@ public class Libro {
         this.autor =  (Autor) data.get("autor");
         this.materia = (Materia) data.get("materia");
         this.numeroEjemplares = (int) data.get("numero_ejemplares");
-        this.numeroPrestamos = (int) data.get("numero_prestamos");
+       
     }
 
     public Autor getAutor() {

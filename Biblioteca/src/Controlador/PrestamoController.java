@@ -138,9 +138,7 @@ public class PrestamoController {
                 }
             }
         }
-        if(libro >= cont){
-            return false;
-        }
+        
         return true;
     }
 
