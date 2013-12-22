@@ -22,6 +22,8 @@ public class Autor extends javax.swing.JInternalFrame {
     public Autor() {
         initComponents();
         llenarAutores();
+        
+        /*comments
 
     }
 
